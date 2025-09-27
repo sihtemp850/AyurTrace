@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurTrace - Blockchain Supply Chain for Ayurvedic Herbs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-leaf"></i>
+                <span>AyurTrace</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#traceability" class="nav-link">Traceability</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="auth.html" class="nav-btn">Login</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transparent <span class="gradient-text">Ayurvedic</span> Supply Chain
+                </h1>
+                <p class="hero-subtitle">
+                    Blockchain-powered traceability for authentic Ayurvedic herbs from farm to consumer. 
+                    Ensuring quality, authenticity, and sustainability at every step.
+                </p>
+                <div class="hero-buttons">
+                    <a href="auth.html" class="btn btn-primary">Get Started</a>
+                    <button class="btn btn-secondary" onclick="scrollToSection('traceability')">
+                        <i class="fas fa-qrcode"></i>
+                        Scan Product
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label">Products Traced</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Verified Farmers</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Quality Score</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="supply-chain-diagram">
+                    <div class="chain-node farmer">
+                        <i class="fas fa-seedling"></i>
+                        <span>Farmer</span>
+                    </div>
+                    <div class="chain-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="chain-node manufacturer">
+                        <i class="fas fa-industry"></i>
+                        <span>Manufacturer</span>
+                    </div>
+                    <div class="chain-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="chain-node lab">
+                        <i class="fas fa-flask"></i>
+                        <span>Lab Testing</span>
+                    </div>
+                    <div class="chain-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="chain-node consumer">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Consumer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Comprehensive Supply Chain Management</h2>
+                <p>Advanced blockchain technology ensuring transparency and authenticity</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>QR Code Traceability</h3>
+                    <p>Scan any product to view its complete journey from farm to shelf with blockchain verification.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certification Management</h3>
+                    <p>Digital certificates for organic, AYUSH premium, and quality standards with real-time verification.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Quality Assurance</h3>
+                    <p>Continuous monitoring of storage conditions, temperature, and handling throughout the supply chain.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Comprehensive dashboards for farmers, manufacturers, lab analysts, and administrators with live data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Sustainability Tracking</h3>
+                    <p>Monitor environmental impact, carbon footprint, and sustainable farming practices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Network Administration</h3>
+                    <p>Comprehensive system management, user oversight, and blockchain network monitoring for administrators.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Traceability Demo Section -->
+    <section id="traceability" class="traceability">
+        <div class="container">
+            <div class="section-header">
+                <h2>Product Traceability Demo</h2>
+                <p>Experience our blockchain-powered traceability system</p>
+            </div>
+            <div class="traceability-demo">
+                <div class="demo-scanner">
+                    <div class="scanner-container">
+                        <div class="qr-scanner">
+                            <div class="scanner-frame">
+                                <div class="scanner-line"></div>
+                            </div>
+                            <div class="qr-code-sample">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                        </div>
+                        <div class="scanner-controls">
+                            <input type="text" id="batchInput" placeholder="Enter batch ID (e.g., AYU-ASH-001)" class="batch-input">
+                            <button onclick="traceProduct()" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                                Trace Product
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-results" id="traceResults" style="display: none;">
+                    <div class="trace-header">
+                        <h3>Traceability Results</h3>
+                        <span class="batch-id">Batch ID: AYU-ASH-001</span>
+                    </div>
+                    <div class="trace-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon farmer">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Farm Origin</h4>
+                                <p><strong>Rajasthan Organic Farms</strong></p>
+                                <p>Planted: March 15, 2024 | Harvested: September 10, 2024</p>
+                                <p>Organic Certified | GPS: 26.9124, 75.7873</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon processor">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Processing</h4>
+                                <p><strong>Ayurvedic Processing Unit</strong></p>
+                                <p>Processed: September 12, 2024</p>
+                                <p>Quality Tests: Passed | Temperature: 25°C</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon lab">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Laboratory Testing</h4>
+                                <p><strong>AyurLab Quality Center</strong></p>
+                                <p>Tested: September 13, 2024</p>
+                                <p>Purity: 98.5% | Heavy Metals: Passed | Microbial: Clear</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon consumer">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Consumer Ready</h4>
+                                <p><strong>Available for Purchase</strong></p>
+                                <p>Listed: September 15, 2024</p>
+                                <p>Certified Authentic | QR Verified | Blockchain Secured</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stakeholders Section -->
+    <section class="stakeholders">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for Every Stakeholder</h2>
+                <p>Tailored dashboards and features for each role in the supply chain</p>
+            </div>
+            <div class="stakeholders-grid">
+                <div class="stakeholder-card" onclick="window.location.href='auth.html?role=farmer'">
+                    <div class="stakeholder-icon farmer">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Farmers</h3>
+                    <ul>
+                        <li>Crop management & tracking</li>
+                        <li>Certification uploads</li>
+                        <li>Weather monitoring</li>
+                        <li>Harvest planning</li>
+                    </ul>
+                    <div class="stakeholder-cta">
+                        <span>Access Farmer Dashboard</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="stakeholder-card" onclick="window.location.href='auth.html?role=manufacturer'">
+                    <div class="stakeholder-icon manufacturer">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Manufacturers</h3>
+                    <ul>
+                        <li>Production tracking</li>
+                        <li>Quality control</li>
+                        <li>Batch management</li>
+                        <li>QR code generation</li>
+                    </ul>
+                    <div class="stakeholder-cta">
+                        <span>Access Manufacturer Dashboard</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="stakeholder-card" onclick="window.location.href='auth.html?role=lab-analysis'">
+                    <div class="stakeholder-icon lab">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Laboratory Analysts</h3>
+                    <ul>
+                        <li>Sample testing</li>
+                        <li>Quality analysis</li>
+                        <li>Certificate generation</li>
+                        <li>Compliance reporting</li>
+                    </ul>
+                    <div class="stakeholder-cta">
+                        <span>Access Lab Dashboard</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="stakeholder-card" onclick="window.location.href='auth.html?role=consumer'">
+                    <div class="stakeholder-icon consumer">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Consumers</h3>
+                    <ul>
+                        <li>Product scanning</li>
+                        <li>Authenticity verification</li>
+                        <li>Reviews & ratings</li>
+                        <li>Purchase history</li>
+                    </ul>
+                    <div class="stakeholder-cta">
+                        <span>Access Consumer Dashboard</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="stakeholder-card" onclick="window.location.href='auth.html?role=admin'">
+                    <div class="stakeholder-icon admin">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                    <h3>System Administrators</h3>
+                    <ul>
+                        <li>Network management</li>
+                        <li>User oversight</li>
+                        <li>System analytics</li>
+                        <li>Security monitoring</li>
+                    </ul>
+                    <div class="stakeholder-cta">
+                        <span>Access Admin Dashboard</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Revolutionizing Ayurvedic Supply Chains</h2>
+                    <p>
+                        AyurTrace leverages cutting-edge blockchain technology to create an immutable, 
+                        transparent record of every Ayurvedic product's journey from farm to consumer. 
+                        Our platform ensures authenticity, quality, and compliance with regulatory standards.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Blockchain-verified authenticity</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Real-time quality monitoring</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Regulatory compliance automation</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sustainable farming practices</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="blockchain-visual">
+                        <div class="block">
+                            <i class="fas fa-cube"></i>
+                            <span>Farm</span>
+                        </div>
+                        <div class="block">
+                            <i class="fas fa-cube"></i>
+                            <span>Manufacture</span>
+                        </div>
+                        <div class="block">
+                            <i class="fas fa-cube"></i>
+                            <span>Lab Test</span>
+                        </div>
+                        <div class="block">
+                            <i class="fas fa-cube"></i>
+                            <span>Consumer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-leaf"></i>
+                        <span>AyurTrace</span>
+                    </div>
+                    <p>Ensuring transparency and authenticity in Ayurvedic supply chains through blockchain technology.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="auth.html">Login</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#traceability">Traceability</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Stakeholders</h4>
+                    <ul>
+                        <li><a href="auth.html?role=farmer">Farmers</a></li>
+                        <li><a href="auth.html?role=manufacturer">Manufacturers</a></li>
+                        <li><a href="auth.html?role=lab-analysis">Lab Analysts</a></li>
+                        <li><a href="auth.html?role=consumer">Consumers</a></li>
+                        <li><a href="auth.html?role=admin">Administrators</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@ayurtrace.com</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AyurTrace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

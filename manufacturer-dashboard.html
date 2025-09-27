@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Dashboard - Ayurvedic Supply Chain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="dashboard-styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="accessibility-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>AyurChain</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#batches" class="nav-item active" onclick="showSection('batches')">
+                    <i class="fas fa-boxes"></i>
+                    <span>Received Batches</span>
+                </a>
+                <a href="#losses" class="nav-item" onclick="showSection('losses')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Loss Submission</span>
+                </a>
+                <a href="#defective" class="nav-item" onclick="showSection('defective')">
+                    <i class="fas fa-recycle"></i>
+                    <span>Defective Herbs</span>
+                </a>
+                <a href="#production" class="nav-item" onclick="showSection('production')">
+                    <i class="fas fa-industry"></i>
+                    <span>Product Manufacturing</span>
+                </a>
+                <a href="#labtesting" class="nav-item" onclick="showSection('labtesting')">
+                    <i class="fas fa-flask"></i>
+                    <span>Lab Testing</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 class="page-title">Manufacturer Dashboard</h1>
+                    <p class="page-subtitle">Manage herb processing and quality control</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="exportManufacturerData()">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </button>
+                        <button class="btn btn-primary" onclick="showNewBatchModal()">
+                            <i class="fas fa-plus"></i>
+                            New Batch
+                        </button>
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-avatar" onclick="toggleUserDropdown()">
+                            <div class="avatar-circle">
+                                <span>MK</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-info">
+                                <div class="user-details">
+                                    <h4>Manoj Kumar</h4>
+                                    <p>Demo Manufacturer</p>
+                                    <span class="user-id">ID: MFG001</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" onclick="showProfile()">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item" onclick="showSettings()">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="#" class="dropdown-item" onclick="showHelp()">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item logout" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Received Batches Section -->
+            <section id="batches" class="content-section active">
+                <div class="section-header">
+                    <h2>Batches Received from Farmers</h2>
+                    <p>Track and manage incoming herb batches</p>
+                </div>
+                
+                <div class="batch-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>24</h3>
+                            <p>Pending Batches</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>156</h3>
+                            <p>Processed This Month</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>2,450kg</h3>
+                            <p>Total Weight Received</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="batch-controls">
+                    <div class="search-filter">
+                        <input type="text" placeholder="Search by batch ID or farmer..." class="search-input" id="batchSearch">
+                        <select class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="bulk-actions">
+                        <button class="btn btn-outline btn-sm" onclick="selectAllBatches()">Select All</button>
+                        <button class="btn btn-primary btn-sm" onclick="processBulkBatches()">Process Selected</button>
+                    </div>
+                </div>
+
+                <div class="batch-table-container">
+                    <table class="batch-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllCheckbox"></th>
+                                <th>Batch ID</th>
+                                <th>Farmer</th>
+                                <th>Herb Type</th>
+                                <th>Weight</th>
+                                <th>Grade</th>
+                                <th>Received Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchTableBody">
+                            <!-- Sample data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Loss Submission Section -->
+            <section id="losses" class="content-section">
+                <div class="section-header">
+                    <h2>Loss Submission</h2>
+                    <p>Report manufacturing losses with proof documentation</p>
+                </div>
+
+                <div class="loss-form-container">
+                    <form class="loss-form" id="lossForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Batch ID</label>
+                                <select class="form-input" required>
+                                    <option value="">Select batch...</option>
+                                    <option value="MFG001">MFG001</option>
+                                    <option value="MFG002">MFG002</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Loss Type</label>
+                                <select class="form-input" required>
+                                    <option value="">Select type...</option>
+                                    <option value="processing">Processing Loss</option>
+                                    <option value="contamination">Contamination</option>
+                                    <option value="equipment">Equipment Failure</option>
+                                    <option value="quality">Quality Issues</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Weight Lost (kg)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Estimated Value (₹)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-input" rows="3" placeholder="Describe the loss incident..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Proof Images</label>
+                            <div class="file-upload-area" onclick="triggerFileUpload()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload images or drag and drop</p>
+                                <span>Supported: JPG, PNG, PDF (Max 5MB each)</span>
+                                <input type="file" id="lossProofFiles" multiple accept="image/*,.pdf" style="display: none;">
+                            </div>
+                            <div class="uploaded-files" id="uploadedFiles"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline">Save Draft</button>
+                            <button type="submit" class="btn btn-primary">Submit Loss Report</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="loss-history">
+                    <h3>Recent Loss Reports</h3>
+                    <div class="loss-cards" id="lossCards">
+                        <!-- Loss cards will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Defective Herbs Section -->
+            <section id="defective" class="content-section">
+                <div class="section-header">
+                    <h2>Defective Herbs Management</h2>
+                    <p>Track destruction and recycling of defective materials</p>
+                </div>
+
+                <div class="defective-stats">
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>45kg</h3>
+                            <p>Pending Destruction</p>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>230kg</h3>
+                            <p>Sent for Recycling</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="defective-form">
+                    <h3>Submit Defective Herbs</h3>
+                    <form id="defectiveForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Source Batch ID</label>
+                                <input type="text" class="form-input" placeholder="Enter batch ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Defect Type</label>
+                                <select class="form-input" required>
+                                    <option value="">Select defect...</option>
+                                    <option value="contamination">Contamination</option>
+                                    <option value="mold">Mold/Fungus</option>
+                                    <option value="foreign">Foreign Matter</option>
+                                    <option value="degradation">Quality Degradation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Action Required</label>
+                                <select class="form-input" required>
+                                    <option value="">Select action...</option>
+                                    <option value="destroy">Destroy</option>
+                                    <option value="recycle">Send for Recycling</option>
+                                    <option value="compost">Compost</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Destruction/Recycling Proof</label>
+                            <div class="file-upload-area" onclick="triggerDefectiveFileUpload()">
+                                <i class="fas fa-camera"></i>
+                                <p>Upload destruction/recycling evidence</p>
+                                <input type="file" id="defectiveProofFiles" multiple accept="image/*,.pdf" style="display: none;">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit for Processing</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Product Manufacturing Section -->
+            <section id="production" class="content-section">
+                <div class="section-header">
+                    <h2>Product Manufacturing</h2>
+                    <p>Track production batches and weight measurements</p>
+                </div>
+
+                <div class="production-overview">
+                    <div class="production-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>12</h3>
+                                <p>Active Production Lines</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>1,850kg</h3>
+                                <p>Products Manufactured</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="production-form">
+                    <h3>Create Production Batch</h3>
+                    <form id="productionForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Product Type</label>
+                                <select class="form-input" required>
+                                    <option value="">Select product...</option>
+                                    <option value="powder">Herbal Powder</option>
+                                    <option value="extract">Extract</option>
+                                    <option value="capsules">Capsules</option>
+                                    <option value="tablets">Tablets</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Source Batches</label>
+                                <input type="text" class="form-input" placeholder="Enter source batch IDs" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Input Weight (kg)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Output Weight (kg)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Manufacturing Notes</label>
+                            <textarea class="form-input" rows="3" placeholder="Production details, equipment used, etc."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Production Batch</button>
+                    </form>
+                </div>
+
+                <div class="production-batches">
+                    <h3>Recent Production Batches</h3>
+                    <div class="batch-grid" id="productionBatches">
+                        <!-- Production batch cards will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lab Testing Section -->
+            <section id="labtesting" class="content-section">
+                <div class="section-header">
+                    <h2>Lab Testing Submission</h2>
+                    <p>Send ready batches for quality testing</p>
+                </div>
+
+                <div class="testing-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>18</h3>
+                            <p>Pending Tests</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>94%</h3>
+                            <p>Pass Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testing-form">
+                    <h3>Submit for Lab Testing</h3>
+                    <form id="testingForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Production Batch ID</label>
+                                <select class="form-input" required>
+                                    <option value="">Select batch...</option>
+                                    <option value="PROD001">PROD001</option>
+                                    <option value="PROD002">PROD002</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Test Type</label>
+                                <select class="form-input" required>
+                                    <option value="">Select test...</option>
+                                    <option value="quality">Quality Analysis</option>
+                                    <option value="purity">Purity Test</option>
+                                    <option value="contamination">Contamination Check</option>
+                                    <option value="potency">Potency Test</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Sample Weight (g)</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select class="form-input" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="urgent">Urgent</option>
+                                    <option value="rush">Rush</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Testing Requirements</label>
+                            <textarea class="form-input" rows="3" placeholder="Specific testing requirements or notes..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit for Testing</button>
+                    </form>
+                </div>
+
+                <div class="testing-history">
+                    <h3>Testing History</h3>
+                    <div class="testing-table-container">
+                        <table class="testing-table">
+                            <thead>
+                                <tr>
+                                    <th>Test ID</th>
+                                    <th>Batch ID</th>
+                                    <th>Test Type</th>
+                                    <th>Submitted Date</th>
+                                    <th>Status</th>
+                                    <th>Result</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testingTableBody">
+                                <!-- Testing history will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+            </div>
+            <div class="modal-content">
+                <form id="profileForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" value="Manoj Kumar">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profileEmail" value="manoj.kumar@manufacturer.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="profilePhone" value="+91 9876543210">
+                        </div>
+                        <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" id="profileCompany" value="AyurManufacturing Ltd.">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="profileLocation" value="Mumbai, India">
+                        </div>
+                        <div class="form-group">
+                            <label>License Number</label>
+                            <input type="text" id="profileLicense" value="MFG-2023-001">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal('profileModal')">Cancel</button>
+                        <button type="button" class="btn-primary" onclick="saveProfile()">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Settings & Preferences</h3>
+                <button class="modal-close" onclick="closeModal('settingsModal')">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="settings-section">
+                    <h4>Notifications</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        New Batch Arrivals
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Quality Control Alerts
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Lab Test Results
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                        Production Reminders
+                    </label>
+                </div>
+                <div class="settings-section">
+                    <h4>Dashboard Preferences</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Auto-refresh Data
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                        Dark Mode
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Show Advanced Metrics
+                    </label>
+                </div>
+                <div class="settings-section">
+                    <h4>Data Export</h4>
+                    <div class="form-group">
+                        <label>Default Export Format</label>
+                        <select class="form-input">
+                            <option value="csv">CSV</option>
+                            <option value="excel">Excel</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+                    <button type="button" class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Help & Support</h3>
+                <button class="modal-close" onclick="closeModal('helpModal')">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="help-section">
+                    <h4>Quick Help</h4>
+                    <div class="help-grid">
+                        <div class="help-card" onclick="showHelpTopic('batches')">
+                            <i class="fas fa-boxes"></i>
+                            <h5>Managing Batches</h5>
+                            <p>Learn how to process incoming batches</p>
+                        </div>
+                        <div class="help-card" onclick="showHelpTopic('quality')">
+                            <i class="fas fa-shield-alt"></i>
+                            <h5>Quality Control</h5>
+                            <p>Quality assurance procedures</p>
+                        </div>
+                        <div class="help-card" onclick="showHelpTopic('production')">
+                            <i class="fas fa-industry"></i>
+                            <h5>Production Management</h5>
+                            <p>Manufacturing process guidelines</p>
+                        </div>
+                        <div class="help-card" onclick="showHelpTopic('testing')">
+                            <i class="fas fa-flask"></i>
+                            <h5>Lab Testing</h5>
+                            <p>Submitting samples for testing</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h4>Contact Support</h4>
+                    <p><strong>Manufacturer Support:</strong> +91 1800-AYUR-MFG</p>
+                    <p><strong>Email:</strong> manufacturer-support@ayurtrace.com</p>
+                    <p><strong>Technical Help:</strong> tech-support@ayurtrace.com</p>
+                </div>
+                <div class="help-section">
+                    <h4>Documentation</h4>
+                    <ul class="help-links">
+                        <li><a href="#" onclick="openDocumentation('user-guide')">User Guide</a></li>
+                        <li><a href="#" onclick="openDocumentation('api-docs')">API Documentation</a></li>
+                        <li><a href="#" onclick="openDocumentation('compliance')">Compliance Guidelines</a></li>
+                        <li><a href="#" onclick="openDocumentation('troubleshooting')">Troubleshooting</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manufacturer Profile Modal -->
+    <div id="manufacturerProfileModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3><i class="fas fa-industry"></i> Manufacturer Profile</h3>
+                <button class="modal-close" onclick="closeModal('manufacturerProfileModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-container">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">
+                            <div class="avatar-circle large manufacturer">
+                                <span>MK</span>
+                            </div>
+                            <button class="btn btn-outline btn-sm">Change Photo</button>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">156</span>
+                                <span class="stat-label">Batches Processed</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">2,847</span>
+                                <span class="stat-label">Products Manufactured</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">98.5%</span>
+                                <span class="stat-label">Quality Rating</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <form class="profile-form">
+                            <div class="form-section">
+                                <h4>Company Information</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Company Name</label>
+                                        <input type="text" value="AyurVeda Manufacturing Ltd." class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Manufacturer ID</label>
+                                        <input type="text" value="MFG001" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Contact Person</label>
+                                        <input type="text" value="Manoj Kumar" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>License Number</label>
+                                        <input type="text" value="AYUR-MFG-2024-001" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" value="manoj@ayurvedamfg.com" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="tel" value="+91 98765 12345" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <h4>Facility Details</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Facility Address</label>
+                                        <textarea class="form-control" rows="3">Industrial Area, Phase-2
+Sector 15, Gurugram
+Haryana - 122001</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Certifications</label>
+                                        <div class="certification-tags">
+                                            <span class="cert-tag">ISO 9001:2015</span>
+                                            <span class="cert-tag">GMP Certified</span>
+                                            <span class="cert-tag">AYUSH Approved</span>
+                                            <span class="cert-tag">WHO-GMP</span>
+                                        </div>
+                                        <button type="button" class="btn btn-outline btn-sm mt-2">Add Certification</button>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Production Capacity (kg/month)</label>
+                                        <input type="number" value="5000" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Established Year</label>
+                                        <input type="number" value="2018" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <h4>Account Settings</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Current Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="security-options">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <label for="emailNotifications">Email notifications for batch updates</label>
+                                    </div>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="qualityAlerts" checked>
+                                        <label for="qualityAlerts">Quality control alerts</label>
+                                    </div>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="complianceReports">
+                                        <label for="complianceReports">Weekly compliance reports</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="closeModal('manufacturerProfileModal')">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script src="manufacturer-dashboard.js"></script>
+</body>
+</html>

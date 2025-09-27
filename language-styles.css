@@ -1,0 +1,466 @@
+/* Language Manager Styles for Farmer Dashboard */
+
+/* Language Suggestion Modal */
+.language-suggestion-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.language-suggestion-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.language-suggestion-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.language-suggestion-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.language-suggestion-modal.show .language-suggestion-content {
+    transform: translateY(0);
+}
+
+.suggestion-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.suggestion-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: white;
+    font-size: 24px;
+}
+
+.suggestion-header h3 {
+    color: #2E7D32;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.language-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.language-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.language-card.suggested {
+    border-color: #4CAF50;
+    background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+}
+
+.language-card.suggested::before {
+    content: "Suggested";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4CAF50;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.language-card.current {
+    border-color: #2196F3;
+    background: linear-gradient(135deg, #E3F2FD, #F0F8FF);
+}
+
+.language-flag {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.language-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.language-info p {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.language-info small {
+    color: #999;
+    font-size: 12px;
+}
+
+.language-card .btn {
+    margin-top: 16px;
+    width: 100%;
+}
+
+.suggestion-footer {
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.suggestion-footer p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.suggestion-footer i {
+    color: #4CAF50;
+    margin-right: 8px;
+}
+
+/* Header Language Selector */
+.language-selector-header {
+    position: relative;
+    margin-right: 16px;
+}
+
+.language-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+    border-color: #4CAF50;
+    background: #f8f9fa;
+}
+
+.current-lang-flag {
+    font-size: 16px;
+}
+
+.current-lang-code {
+    font-weight: 600;
+    color: #333;
+    font-size: 12px;
+}
+
+.language-btn i {
+    color: #666;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.language-btn.active i {
+    transform: rotate(180deg);
+}
+
+/* Language Dropdown */
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    min-width: 280px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.language-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-dropdown-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+}
+
+.language-dropdown-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-dropdown-header i {
+    color: #4CAF50;
+}
+
+.language-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.language-option:last-child {
+    border-bottom: none;
+    border-radius: 0 0 12px 12px;
+}
+
+.language-option:hover {
+    background: #f8f9fa;
+}
+
+.language-option.active {
+    background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+    border-left: 4px solid #4CAF50;
+}
+
+.lang-flag {
+    font-size: 20px;
+    margin-right: 12px;
+    width: 24px;
+    text-align: center;
+}
+
+.lang-info {
+    flex: 1;
+}
+
+.lang-native {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.lang-english {
+    display: block;
+    color: #666;
+    font-size: 12px;
+}
+
+.language-option .fas.fa-check {
+    color: #4CAF50;
+    font-size: 16px;
+}
+
+/* RTL Support */
+[dir="rtl"] .language-dropdown {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] .language-option {
+    border-left: none;
+    border-right: 4px solid transparent;
+}
+
+[dir="rtl"] .language-option.active {
+    border-right-color: #4CAF50;
+    border-left: none;
+}
+
+[dir="rtl"] .lang-flag {
+    margin-right: 0;
+    margin-left: 12px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .language-options {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .language-suggestion-content {
+        padding: 24px;
+        margin: 20px;
+    }
+    
+    .language-dropdown {
+        min-width: 250px;
+        right: -20px;
+    }
+    
+    [dir="rtl"] .language-dropdown {
+        left: -20px;
+        right: auto;
+    }
+}
+
+/* Notification Styles for Language Changes */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 400px;
+    animation: slideInRight 0.3s ease;
+}
+
+.notification.success {
+    border-left: 4px solid #4CAF50;
+}
+
+.notification.info {
+    border-left: 4px solid #2196F3;
+}
+
+.notification.warning {
+    border-left: 4px solid #FF9800;
+}
+
+.notification i {
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+.notification.info i {
+    color: #2196F3;
+}
+
+.notification.warning i {
+    color: #FF9800;
+}
+
+.notification span {
+    flex: 1;
+    color: #333;
+    font-size: 14px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.notification-close:hover {
+    background: #f5f5f5;
+    color: #666;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Language-specific font adjustments */
+[lang="hi"], [lang="mr"], [lang="ne"] {
+    font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="ta"] {
+    font-family: 'Noto Sans Tamil', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="te"] {
+    font-family: 'Noto Sans Telugu', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="kn"] {
+    font-family: 'Noto Sans Kannada', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="ml"] {
+    font-family: 'Noto Sans Malayalam', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="gu"] {
+    font-family: 'Noto Sans Gujarati', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="bn"] {
+    font-family: 'Noto Sans Bengali', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="pa"] {
+    font-family: 'Noto Sans Gurmukhi', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="or"] {
+    font-family: 'Noto Sans Oriya', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="as"] {
+    font-family: 'Noto Sans Bengali', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="ur"] {
+    font-family: 'Noto Nastaliq Urdu', 'Arial Unicode MS', sans-serif;
+    direction: rtl;
+}

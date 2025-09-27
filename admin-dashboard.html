@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AyurTrace Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link rel="stylesheet" href="accessibility-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet Map Library for Interactive Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>AyurTrace</span>
+                    <span class="admin-badge">ADMIN</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Network Overview</span>
+                </a>
+                <a href="#users" class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="#geofencing" class="nav-item" data-section="geofencing">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Geo-Fencing</span>
+                </a>
+                <a href="#blockchain" class="nav-item" data-section="blockchain">
+                    <i class="fas fa-cubes"></i>
+                    <span>Blockchain Network</span>
+                </a>
+                <a href="#compliance" class="nav-item" data-section="compliance">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Compliance</span>
+                </a>
+                <a href="#analytics" class="nav-item" data-section="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#alerts" class="nav-item" data-section="alerts">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Alerts & Incidents</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>System Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 class="page-title">Admin Dashboard</h1>
+                    <p class="page-subtitle">AyurTrace Blockchain Network Management</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <div class="network-status">
+                            <span class="status-indicator online"></span>
+                            <span>Network Online</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="exportSystemReport()">
+                            <i class="fas fa-download"></i>
+                            Export Report
+                        </button>
+                        <button class="btn btn-danger" onclick="showEmergencyPanel()">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Emergency
+                        </button>
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-avatar" onclick="toggleUserDropdown()">
+                            <div class="avatar-circle admin">
+                                <span>AD</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-info">
+                                <div class="user-details">
+                                    <h4>System Administrator</h4>
+                                    <p>Network Admin</p>
+                                    <span class="user-id">ID: ADMIN001</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" onclick="showProfile()">
+                                    <i class="fas fa-user"></i>
+                                    <span>Admin Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item" onclick="showSettings()">
+                                    <i class="fas fa-cog"></i>
+                                    <span>System Settings</span>
+                                </a>
+                                <a href="#" class="dropdown-item" onclick="showAuditLogs()">
+                                    <i class="fas fa-history"></i>
+                                    <span>Audit Logs</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item logout" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Network Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>Network Overview</h2>
+                    <p>Real-time status of the AyurTrace blockchain network</p>
+                </div>
+                
+                <div class="overview-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon network">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>Active Nodes</p>
+                            <span class="stat-change positive">+2 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon users">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>1,247</h3>
+                            <p>Network Participants</p>
+                            <span class="stat-change positive">+45 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon transactions">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>89,432</h3>
+                            <p>Total Transactions</p>
+                            <span class="stat-change positive">+1,234 today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon compliance">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>98.7%</h3>
+                            <p>Compliance Rate</p>
+                            <span class="stat-change positive">+0.3% this week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-charts">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Network Activity</h3>
+                            <select class="chart-period">
+                                <option value="24h">Last 24 Hours</option>
+                                <option value="7d">Last 7 Days</option>
+                                <option value="30d">Last 30 Days</option>
+                            </select>
+                        </div>
+                        <canvas id="networkActivityChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Participant Distribution</h3>
+                        </div>
+                        <canvas id="participantChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Network Activity</h3>
+                    <div class="activity-list" id="recentActivityList">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users" class="content-section">
+                <div class="section-header">
+                    <h2>User Management</h2>
+                    <p>Manage network participants and access permissions</p>
+                </div>
+
+                <div class="user-management-controls">
+                    <div class="search-filter">
+                        <input type="text" placeholder="Search users..." class="search-input" id="userSearch">
+                        <select class="filter-select" id="roleFilter">
+                            <option value="all">All Roles</option>
+                            <option value="farmer">Farmers</option>
+                            <option value="manufacturer">Manufacturers</option>
+                            <option value="lab">Laboratories</option>
+                            <option value="consumer">Consumers</option>
+                            <option value="pending">Pending Approval</option>
+                        </select>
+                        <select class="filter-select" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" onclick="exportUserList()">
+                            <i class="fas fa-download"></i>
+                            Export Users
+                        </button>
+                        <button class="btn btn-primary" onclick="showAddUserModal()">
+                            <i class="fas fa-user-plus"></i>
+                            Add User
+                        </button>
+                    </div>
+                </div>
+
+                <div class="users-table-container">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllUsers"></th>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Last Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- User rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pending-approvals">
+                    <h3>Pending Approvals <span class="approval-count">5</span></h3>
+                    <div class="approval-list" id="pendingApprovalsList">
+                        <!-- Pending approvals will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Geo-Fencing Section -->
+            <section id="geofencing" class="content-section">
+                <div class="section-header">
+                    <h2>Geo-Fencing Management</h2>
+                    <p>Define and manage approved harvesting zones</p>
+                </div>
+
+                <div class="geofencing-controls">
+                    <div class="zone-stats">
+                        <div class="zone-stat">
+                            <span class="stat-number">24</span>
+                            <span class="stat-label">Active Zones</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-number">156</span>
+                            <span class="stat-label">Species Protected</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-number">89%</span>
+                            <span class="stat-label">Compliance Rate</span>
+                        </div>
+                    </div>
+                    <div class="zone-actions">
+                        <button class="btn btn-outline" onclick="importZoneData()">
+                            <i class="fas fa-upload"></i>
+                            Import Zones
+                        </button>
+                        <button class="btn btn-primary" onclick="createNewZone()">
+                            <i class="fas fa-plus"></i>
+                            Create Zone
+                        </button>
+                    </div>
+                </div>
+
+                <div class="geofencing-interface">
+                    <div class="map-container">
+                        <div id="geoMap" class="geo-map">
+                            <!-- Interactive map will be rendered here -->
+                            <div class="map-placeholder" id="mapPlaceholder">
+                                <i class="fas fa-map"></i>
+                                <p>Interactive Geo-Location Tracking Map</p>
+                                <small>Real-time tracking of farmers, manufacturers, and supply chain locations</small>
+                                <button class="btn btn-primary" onclick="initializeMap()" style="margin-top: 1rem;">
+                                    <i class="fas fa-play"></i>
+                                    Initialize Map
+                                </button>
+                            </div>
+                            <canvas id="mapCanvas" style="display: none; width: 100%; height: 100%;"></canvas>
+                        </div>
+                        <div class="map-controls">
+                            <div class="control-group">
+                                <label>Map View:</label>
+                                <select id="mapViewSelect" onchange="changeMapView(this.value)">
+                                    <option value="satellite">Satellite</option>
+                                    <option value="terrain">Terrain</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="roadmap" selected>Road Map</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label>Tracking:</label>
+                                <button class="map-btn" onclick="toggleRealTimeTracking()" id="trackingBtn">
+                                    <i class="fas fa-satellite-dish"></i>
+                                    Start Tracking
+                                </button>
+                            </div>
+                            <div class="control-group">
+                                <label>Layers:</label>
+                                <button class="map-btn" onclick="toggleZoneVisibility()" id="zonesBtn">
+                                    <i class="fas fa-eye"></i>
+                                    Zones
+                                </button>
+                                <button class="map-btn" onclick="toggleFarmersLayer()" id="farmersBtn">
+                                    <i class="fas fa-tractor"></i>
+                                    Farmers
+                                </button>
+                                <button class="map-btn" onclick="toggleManufacturersLayer()" id="manufacturersBtn">
+                                    <i class="fas fa-industry"></i>
+                                    Manufacturers
+                                </button>
+                                <button class="map-btn" onclick="toggleLabsLayer()" id="labsBtn">
+                                    <i class="fas fa-flask"></i>
+                                    Labs
+                                </button>
+                            </div>
+                            <div class="control-group">
+                                <label>Analysis:</label>
+                                <button class="map-btn" onclick="showHeatmap()">
+                                    <i class="fas fa-fire"></i>
+                                    Heatmap
+                                </button>
+                                <button class="map-btn" onclick="showRouteAnalysis()">
+                                    <i class="fas fa-route"></i>
+                                    Routes
+                                </button>
+                                <button class="map-btn" onclick="exportMapData()">
+                                    <i class="fas fa-download"></i>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="location-sidebar">
+                        <div class="sidebar-tabs">
+                            <button class="tab-btn active" onclick="showTab('zones')" data-tab="zones">
+                                <i class="fas fa-map-marked-alt"></i>
+                                Zones
+                            </button>
+                            <button class="tab-btn" onclick="showTab('tracking')" data-tab="tracking">
+                                <i class="fas fa-satellite-dish"></i>
+                                Live Tracking
+                            </button>
+                            <button class="tab-btn" onclick="showTab('alerts')" data-tab="alerts">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Alerts
+                            </button>
+                        </div>
+                        
+                        <div class="tab-content" id="zones-tab">
+                            <h4>Geo-Fencing Zones</h4>
+                            <div class="zone-items" id="zoneList">
+                                <!-- Zone items will be populated by JavaScript -->
+                            </div>
+                            <button class="btn btn-outline btn-sm" onclick="createNewZone()" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-plus"></i>
+                                Create New Zone
+                            </button>
+                        </div>
+                        
+                        <div class="tab-content" id="tracking-tab" style="display: none;">
+                            <h4>Live Location Tracking</h4>
+                            <div class="tracking-stats">
+                                <div class="tracking-stat">
+                                    <span class="stat-number" id="activeFarmers">24</span>
+                                    <span class="stat-label">Active Farmers</span>
+                                </div>
+                                <div class="tracking-stat">
+                                    <span class="stat-number" id="activeVehicles">8</span>
+                                    <span class="stat-label">Transport Vehicles</span>
+                                </div>
+                                <div class="tracking-stat">
+                                    <span class="stat-number" id="activeBatches">156</span>
+                                    <span class="stat-label">Batches in Transit</span>
+                                </div>
+                            </div>
+                            <div class="tracking-list" id="trackingList">
+                                <!-- Live tracking items will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="alerts-tab" style="display: none;">
+                            <h4>Location-Based Alerts</h4>
+                            <div class="alert-filters">
+                                <select id="alertTypeFilter" onchange="filterAlerts(this.value)">
+                                    <option value="all">All Alerts</option>
+                                    <option value="geofence">Geo-fence Violations</option>
+                                    <option value="route">Route Deviations</option>
+                                    <option value="delay">Delivery Delays</option>
+                                    <option value="unauthorized">Unauthorized Access</option>
+                                </select>
+                            </div>
+                            <div class="alert-list" id="alertList">
+                                <!-- Location alerts will be populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Real-time Location Dashboard -->
+                <div class="location-dashboard">
+                    <div class="dashboard-row">
+                        <div class="location-card">
+                            <div class="card-header">
+                                <h4><i class="fas fa-globe-asia"></i> Global Overview</h4>
+                                <div class="card-actions">
+                                    <button class="btn-icon" onclick="refreshLocationData()" title="Refresh">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="location-metrics">
+                                    <div class="metric">
+                                        <span class="metric-value">12</span>
+                                        <span class="metric-label">Countries</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">156</span>
+                                        <span class="metric-label">Cities</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">2,847</span>
+                                        <span class="metric-label">Active Locations</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-value">98.7%</span>
+                                        <span class="metric-label">GPS Accuracy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="location-card">
+                            <div class="card-header">
+                                <h4><i class="fas fa-route"></i> Supply Chain Routes</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="route-summary">
+                                    <div class="route-item">
+                                        <div class="route-info">
+                                            <span class="route-name">Karnataka → Bangalore</span>
+                                            <span class="route-status active">24 Active Shipments</span>
+                                        </div>
+                                        <div class="route-metrics">
+                                            <span class="avg-time">2.3h avg</span>
+                                            <span class="efficiency">94% efficiency</span>
+                                        </div>
+                                    </div>
+                                    <div class="route-item">
+                                        <div class="route-info">
+                                            <span class="route-name">Tamil Nadu → Chennai</span>
+                                            <span class="route-status active">18 Active Shipments</span>
+                                        </div>
+                                        <div class="route-metrics">
+                                            <span class="avg-time">1.8h avg</span>
+                                            <span class="efficiency">97% efficiency</span>
+                                        </div>
+                                    </div>
+                                    <div class="route-item">
+                                        <div class="route-info">
+                                            <span class="route-name">Kerala → Kochi</span>
+                                            <span class="route-status warning">12 Active, 2 Delayed</span>
+                                        </div>
+                                        <div class="route-metrics">
+                                            <span class="avg-time">3.1h avg</span>
+                                            <span class="efficiency">87% efficiency</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blockchain Network Section -->
+            <section id="blockchain" class="content-section">
+                <div class="section-header">
+                    <h2>Blockchain Network</h2>
+                    <p>Monitor blockchain health, nodes, and transaction processing</p>
+                </div>
+
+                <div class="blockchain-overview">
+                    <div class="blockchain-stats">
+                        <div class="blockchain-stat">
+                            <div class="stat-icon blockchain">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>45,892</h3>
+                                <p>Current Block Height</p>
+                                <span class="stat-trend">+127 blocks/hour</span>
+                            </div>
+                        </div>
+                        <div class="blockchain-stat">
+                            <div class="stat-icon nodes">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>12/15</h3>
+                                <p>Active Nodes</p>
+                                <span class="stat-trend warning">3 nodes offline</span>
+                            </div>
+                        </div>
+                        <div class="blockchain-stat">
+                            <div class="stat-icon performance">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>2.3s</h3>
+                                <p>Avg Block Time</p>
+                                <span class="stat-trend positive">Optimal</span>
+                            </div>
+                        </div>
+                        <div class="blockchain-stat">
+                            <div class="stat-icon consensus">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>100%</h3>
+                                <p>Consensus Health</p>
+                                <span class="stat-trend positive">All nodes synced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blockchain-details">
+                    <div class="node-status">
+                        <h4>Node Status</h4>
+                        <div class="nodes-grid" id="nodesGrid">
+                            <div class="node-card online">
+                                <div class="node-header">
+                                    <span class="node-name">Node-01</span>
+                                    <span class="node-status-badge online">Online</span>
+                                </div>
+                                <div class="node-info">
+                                    <p><strong>Location:</strong> Mumbai, India</p>
+                                    <p><strong>Uptime:</strong> 99.8%</p>
+                                    <p><strong>Last Block:</strong> 2 seconds ago</p>
+                                </div>
+                            </div>
+                            <div class="node-card online">
+                                <div class="node-header">
+                                    <span class="node-name">Node-02</span>
+                                    <span class="node-status-badge online">Online</span>
+                                </div>
+                                <div class="node-info">
+                                    <p><strong>Location:</strong> Bangalore, India</p>
+                                    <p><strong>Uptime:</strong> 99.9%</p>
+                                    <p><strong>Last Block:</strong> 1 second ago</p>
+                                </div>
+                            </div>
+                            <div class="node-card offline">
+                                <div class="node-header">
+                                    <span class="node-name">Node-03</span>
+                                    <span class="node-status-badge offline">Offline</span>
+                                </div>
+                                <div class="node-info">
+                                    <p><strong>Location:</strong> Delhi, India</p>
+                                    <p><strong>Uptime:</strong> 97.2%</p>
+                                    <p><strong>Last Block:</strong> 15 minutes ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-pool">
+                        <h4>Transaction Pool</h4>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-number">234</span>
+                                <span class="pool-label">Pending Transactions</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-number">1,456</span>
+                                <span class="pool-label">Processed Today</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-number">0.02s</span>
+                                <span class="pool-label">Avg Processing Time</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Compliance Section -->
+            <section id="compliance" class="content-section">
+                <div class="section-header">
+                    <h2>Compliance Monitoring</h2>
+                    <p>Track regulatory compliance and audit requirements</p>
+                </div>
+
+                <div class="compliance-dashboard">
+                    <div class="compliance-overview">
+                        <div class="compliance-score">
+                            <div class="score-circle large">
+                                <span class="score-value">98.7%</span>
+                                <span class="score-label">Overall Compliance</span>
+                            </div>
+                        </div>
+                        <div class="compliance-breakdown">
+                            <div class="compliance-item">
+                                <div class="compliance-category">
+                                    <i class="fas fa-leaf"></i>
+                                    <span>Organic Certification</span>
+                                </div>
+                                <div class="compliance-status">
+                                    <span class="status-bar">
+                                        <span class="status-fill" style="width: 96%"></span>
+                                    </span>
+                                    <span class="status-percentage">96%</span>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-category">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Geo-Fencing Compliance</span>
+                                </div>
+                                <div class="compliance-status">
+                                    <span class="status-bar">
+                                        <span class="status-fill" style="width: 99%"></span>
+                                    </span>
+                                    <span class="status-percentage">99%</span>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-category">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Lab Testing</span>
+                                </div>
+                                <div class="compliance-status">
+                                    <span class="status-bar">
+                                        <span class="status-fill" style="width: 94%"></span>
+                                    </span>
+                                    <span class="status-percentage">94%</span>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div class="compliance-category">
+                                    <i class="fas fa-truck"></i>
+                                    <span>Supply Chain Tracking</span>
+                                </div>
+                                <div class="compliance-status">
+                                    <span class="status-bar">
+                                        <span class="status-fill" style="width: 100%"></span>
+                                    </span>
+                                    <span class="status-percentage">100%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compliance-alerts">
+                        <h4>Compliance Alerts</h4>
+                        <div class="alert-list">
+                            <div class="alert-item warning">
+                                <div class="alert-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5>Certification Expiring</h5>
+                                    <p>Organic certification for Farmer ID: F-2024-089 expires in 15 days</p>
+                                    <span class="alert-time">2 hours ago</span>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn-small">Review</button>
+                                </div>
+                            </div>
+                            <div class="alert-item info">
+                                <div class="alert-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5>New Audit Required</h5>
+                                    <p>Lab facility LAB-KAR-003 requires quarterly audit</p>
+                                    <span class="alert-time">1 day ago</span>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn-small">Schedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="audit-trail">
+                    <h4>Recent Audit Trail</h4>
+                    <div class="audit-table-container">
+                        <table class="audit-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Entity</th>
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Auditor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-01-15 14:30</td>
+                                    <td>F-2024-089</td>
+                                    <td>Organic Certification Review</td>
+                                    <td><span class="status-badge success">Passed</span></td>
+                                    <td>AUD-001</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-15 12:15</td>
+                                    <td>LAB-KAR-003</td>
+                                    <td>Quality Control Audit</td>
+                                    <td><span class="status-badge warning">Pending</span></td>
+                                    <td>AUD-002</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="content-section">
+                <div class="section-header">
+                    <h2>Network Analytics</h2>
+                    <p>Comprehensive insights and performance metrics</p>
+                </div>
+
+                <div class="analytics-dashboard">
+                    <div class="analytics-filters">
+                        <select class="filter-select">
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                            <option value="90d">Last 90 Days</option>
+                            <option value="1y">Last Year</option>
+                        </select>
+                        <button class="btn btn-outline" onclick="exportAnalytics()">
+                            <i class="fas fa-download"></i>
+                            Export Report
+                        </button>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h4>Transaction Volume</h4>
+                                <span class="trend-indicator positive">+12.5%</span>
+                            </div>
+                            <canvas id="transactionVolumeChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h4>User Growth</h4>
+                                <span class="trend-indicator positive">+8.3%</span>
+                            </div>
+                            <canvas id="userGrowthChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h4>Geographic Distribution</h4>
+                            </div>
+                            <canvas id="geoDistributionChart"></canvas>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h4>Supply Chain Efficiency</h4>
+                                <span class="trend-indicator positive">+5.7%</span>
+                            </div>
+                            <canvas id="efficiencyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="key-metrics">
+                        <h4>Key Performance Indicators</h4>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <h5>2.3 days</h5>
+                                    <p>Avg. Farm-to-Consumer Time</p>
+                                    <span class="metric-change positive">-0.5 days</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-icon">
+                                    <i class="fas fa-shield-check"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <h5>99.2%</h5>
+                                    <p>Traceability Success Rate</p>
+                                    <span class="metric-change positive">+0.8%</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <h5>1,247</h5>
+                                    <p>Active Participants</p>
+                                    <span class="metric-change positive">+45</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <h5>156</h5>
+                                    <p>Herb Species Tracked</p>
+                                    <span class="metric-change positive">+12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts & Incidents Section -->
+            <section id="alerts" class="content-section">
+                <div class="section-header">
+                    <h2>Alerts & Incidents</h2>
+                    <p>Monitor system alerts and manage incident responses</p>
+                </div>
+
+                <div class="alerts-overview">
+                    <div class="alert-stats">
+                        <div class="alert-stat critical">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Critical</div>
+                        </div>
+                        <div class="alert-stat warning">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Warning</div>
+                        </div>
+                        <div class="alert-stat info">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Info</div>
+                        </div>
+                        <div class="alert-stat resolved">
+                            <div class="stat-number">234</div>
+                            <div class="stat-label">Resolved</div>
+                        </div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-outline" onclick="acknowledgeAllAlerts()">
+                            <i class="fas fa-check"></i>
+                            Acknowledge All
+                        </button>
+                        <button class="btn btn-primary" onclick="createIncident()">
+                            <i class="fas fa-plus"></i>
+                            Create Incident
+                        </button>
+                    </div>
+                </div>
+
+                <div class="alerts-list">
+                    <div class="alert-filters">
+                        <select class="filter-select">
+                            <option value="all">All Alerts</option>
+                            <option value="critical">Critical</option>
+                            <option value="warning">Warning</option>
+                            <option value="info">Info</option>
+                        </select>
+                        <select class="filter-select">
+                            <option value="active">Active</option>
+                            <option value="acknowledged">Acknowledged</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+
+                    <div class="alerts-container">
+                        <div class="alert-card critical">
+                            <div class="alert-header">
+                                <div class="alert-severity">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>Critical</span>
+                                </div>
+                                <div class="alert-time">5 minutes ago</div>
+                            </div>
+                            <div class="alert-body">
+                                <h4>Node Synchronization Failed</h4>
+                                <p>Node-03 has lost synchronization with the network. Immediate attention required.</p>
+                                <div class="alert-details">
+                                    <span><strong>Affected:</strong> Node-03 (Delhi)</span>
+                                    <span><strong>Impact:</strong> Reduced network redundancy</span>
+                                </div>
+                            </div>
+                            <div class="alert-footer">
+                                <button class="btn btn-small btn-outline">Acknowledge</button>
+                                <button class="btn btn-small btn-primary">Investigate</button>
+                            </div>
+                        </div>
+
+                        <div class="alert-card warning">
+                            <div class="alert-header">
+                                <div class="alert-severity">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Warning</span>
+                                </div>
+                                <div class="alert-time">2 hours ago</div>
+                            </div>
+                            <div class="alert-body">
+                                <h4>High Transaction Volume</h4>
+                                <p>Transaction volume is 150% above normal levels. Monitor for potential bottlenecks.</p>
+                                <div class="alert-details">
+                                    <span><strong>Current TPS:</strong> 45 transactions/second</span>
+                                    <span><strong>Normal TPS:</strong> 30 transactions/second</span>
+                                </div>
+                            </div>
+                            <div class="alert-footer">
+                                <button class="btn btn-small btn-outline">Acknowledge</button>
+                                <button class="btn btn-small btn-primary">Monitor</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Settings Section -->
+            <section id="settings" class="content-section">
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                    <p>Configure network parameters and system preferences</p>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-nav">
+                        <a href="#network-config" class="settings-tab active" data-tab="network-config">
+                            <i class="fas fa-network-wired"></i>
+                            Network Configuration
+                        </a>
+                        <a href="#security" class="settings-tab" data-tab="security">
+                            <i class="fas fa-shield-alt"></i>
+                            Security Settings
+                        </a>
+                        <a href="#notifications" class="settings-tab" data-tab="notifications">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </a>
+                        <a href="#backup" class="settings-tab" data-tab="backup">
+                            <i class="fas fa-database"></i>
+                            Backup & Recovery
+                        </a>
+                        <a href="#maintenance" class="settings-tab" data-tab="maintenance">
+                            <i class="fas fa-tools"></i>
+                            Maintenance
+                        </a>
+                    </div>
+
+                    <div class="settings-content">
+                        <div id="network-config" class="settings-panel active">
+                            <h4>Network Configuration</h4>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Block Time (seconds)</label>
+                                    <input type="number" value="2.3" min="1" max="10">
+                                    <small>Target time between blocks</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Maximum Block Size (MB)</label>
+                                    <input type="number" value="8" min="1" max="32">
+                                    <small>Maximum size for each block</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Transaction Fee (AYT)</label>
+                                    <input type="number" value="0.001" min="0.0001" max="1" step="0.0001">
+                                    <small>Base transaction fee in AYT tokens</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Consensus Threshold</label>
+                                    <input type="number" value="67" min="51" max="100">
+                                    <small>Percentage of nodes required for consensus</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="security" class="settings-panel">
+                            <h4>Security Settings</h4>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Session Timeout (minutes)</label>
+                                    <input type="number" value="30" min="5" max="480">
+                                </div>
+                                <div class="form-group">
+                                    <label>Failed Login Attempts</label>
+                                    <input type="number" value="5" min="3" max="10">
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Enable Two-Factor Authentication
+                                    </label>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Require SSL/TLS for all connections
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="notifications" class="settings-panel">
+                            <h4>Notification Settings</h4>
+                            <div class="settings-form">
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Email notifications for critical alerts
+                                    </label>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        SMS notifications for system failures
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Notification Email</label>
+                                    <input type="email" value="admin@ayurtrace.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="backup" class="settings-panel">
+                            <h4>Backup & Recovery</h4>
+                            <div class="backup-status">
+                                <div class="backup-info">
+                                    <h5>Last Backup</h5>
+                                    <p>January 15, 2024 at 02:00 AM</p>
+                                    <span class="status-badge success">Successful</span>
+                                </div>
+                                <div class="backup-actions">
+                                    <button class="btn btn-outline">Download Backup</button>
+                                    <button class="btn btn-primary">Create Backup Now</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="maintenance" class="settings-panel">
+                            <h4>System Maintenance</h4>
+                            <div class="maintenance-actions">
+                                <div class="maintenance-item">
+                                    <div class="maintenance-info">
+                                        <h5>Clear Cache</h5>
+                                        <p>Clear system cache to improve performance</p>
+                                    </div>
+                                    <button class="btn btn-outline">Clear Cache</button>
+                                </div>
+                                <div class="maintenance-item">
+                                    <div class="maintenance-info">
+                                        <h5>Rebuild Indexes</h5>
+                                        <p>Rebuild database indexes for optimal query performance</p>
+                                    </div>
+                                    <button class="btn btn-outline">Rebuild</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button class="btn btn-outline">Reset to Defaults</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Profile Modal -->
+            <div id="adminProfileModal" class="modal">
+                <div class="modal-content large">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-user-shield"></i> Admin Profile</h3>
+                        <button class="modal-close" onclick="closeModal('adminProfileModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="profile-container">
+                            <div class="profile-sidebar">
+                                <div class="profile-avatar">
+                                    <div class="avatar-circle large admin">
+                                        <span>AD</span>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm">Change Photo</button>
+                                </div>
+                                <div class="profile-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">247</span>
+                                        <span class="stat-label">Days Active</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">1,456</span>
+                                        <span class="stat-label">Actions Performed</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">99.8%</span>
+                                        <span class="stat-label">System Uptime</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-content">
+                                <form class="profile-form">
+                                    <div class="form-section">
+                                        <h4>Personal Information</h4>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Full Name</label>
+                                                <input type="text" value="System Administrator" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Admin ID</label>
+                                                <input type="text" value="ADMIN001" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="email" value="admin@ayurtrace.com" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="tel" value="+91 98765 43210" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-section">
+                                        <h4>Security Settings</h4>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Current Password</label>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>New Password</label>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="security-options">
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="twoFactor" checked>
+                                                <label for="twoFactor">Enable Two-Factor Authentication</label>
+                                            </div>
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="loginAlerts" checked>
+                                                <label for="loginAlerts">Email login alerts</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-outline" onclick="closeModal('adminProfileModal')">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Settings Modal -->
+            <div id="systemSettingsModal" class="modal">
+                <div class="modal-content large">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-cogs"></i> System Settings</h3>
+                        <button class="modal-close" onclick="closeModal('systemSettingsModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="settings-tabs">
+                            <div class="tab-nav">
+                                <button class="tab-btn active" onclick="showSettingsTab('general')">General</button>
+                                <button class="tab-btn" onclick="showSettingsTab('blockchain')">Blockchain</button>
+                                <button class="tab-btn" onclick="showSettingsTab('security')">Security</button>
+                                <button class="tab-btn" onclick="showSettingsTab('notifications')">Notifications</button>
+                            </div>
+                            <div class="tab-content">
+                                <div id="general-settings" class="settings-panel active">
+                                    <h4>General Settings</h4>
+                                    <div class="settings-grid">
+                                        <div class="setting-item">
+                                            <label>System Name</label>
+                                            <input type="text" value="AyurTrace Network" class="form-control">
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Time Zone</label>
+                                            <select class="form-control">
+                                                <option>Asia/Kolkata (IST)</option>
+                                                <option>UTC</option>
+                                                <option>America/New_York</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Language</label>
+                                            <select class="form-control">
+                                                <option>English</option>
+                                                <option>Hindi</option>
+                                                <option>Tamil</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Auto-refresh Interval</label>
+                                            <select class="form-control">
+                                                <option>30 seconds</option>
+                                                <option>1 minute</option>
+                                                <option>5 minutes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="blockchain-settings" class="settings-panel">
+                                    <h4>Blockchain Configuration</h4>
+                                    <div class="settings-grid">
+                                        <div class="setting-item">
+                                            <label>Network Type</label>
+                                            <select class="form-control">
+                                                <option>Hyperledger Fabric</option>
+                                                <option>Ethereum</option>
+                                                <option>Corda</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Block Time (seconds)</label>
+                                            <input type="number" value="2.3" class="form-control">
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Gas Limit</label>
+                                            <input type="number" value="8000000" class="form-control">
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Consensus Algorithm</label>
+                                            <select class="form-control">
+                                                <option>PBFT</option>
+                                                <option>Raft</option>
+                                                <option>Solo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="security-settings" class="settings-panel">
+                                    <h4>Security Configuration</h4>
+                                    <div class="settings-grid">
+                                        <div class="setting-item">
+                                            <label>Session Timeout (minutes)</label>
+                                            <input type="number" value="30" class="form-control">
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Max Login Attempts</label>
+                                            <input type="number" value="3" class="form-control">
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Password Policy</label>
+                                            <select class="form-control">
+                                                <option>Strong (12+ chars)</option>
+                                                <option>Medium (8+ chars)</option>
+                                                <option>Basic (6+ chars)</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>IP Whitelist</label>
+                                            <textarea class="form-control" rows="3">192.168.1.0/24
+10.0.0.0/8</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="notifications-settings" class="settings-panel">
+                                    <h4>Notification Settings</h4>
+                                    <div class="notification-options">
+                                        <div class="notification-group">
+                                            <h5>System Alerts</h5>
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="nodeDown" checked>
+                                                <label for="nodeDown">Node offline alerts</label>
+                                            </div>
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="highLoad" checked>
+                                                <label for="highLoad">High system load</label>
+                                            </div>
+                                        </div>
+                                        <div class="notification-group">
+                                            <h5>User Activity</h5>
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="newUsers">
+                                                <label for="newUsers">New user registrations</label>
+                                            </div>
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" id="suspiciousActivity" checked>
+                                                <label for="suspiciousActivity">Suspicious activity</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-outline" onclick="closeModal('systemSettingsModal')">Cancel</button>
+                            <button class="btn btn-primary" onclick="saveSystemSettings()">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audit Logs Modal -->
+            <div id="auditLogsModal" class="modal">
+                <div class="modal-content extra-large">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-history"></i> Audit Logs</h3>
+                        <button class="modal-close" onclick="closeModal('auditLogsModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="audit-controls">
+                            <div class="filter-row">
+                                <div class="filter-group">
+                                    <label>Date Range</label>
+                                    <input type="date" class="form-control" value="2024-01-01">
+                                    <span>to</span>
+                                    <input type="date" class="form-control" value="2024-01-15">
+                                </div>
+                                <div class="filter-group">
+                                    <label>Action Type</label>
+                                    <select class="form-control">
+                                        <option>All Actions</option>
+                                        <option>Login/Logout</option>
+                                        <option>User Management</option>
+                                        <option>System Changes</option>
+                                        <option>Data Access</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label>User</label>
+                                    <input type="text" placeholder="Search user..." class="form-control">
+                                </div>
+                                <button class="btn btn-primary">Filter</button>
+                            </div>
+                        </div>
+                        <div class="audit-table-container">
+                            <table class="audit-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>Resource</th>
+                                        <th>IP Address</th>
+                                        <th>Status</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditTableBody">
+                                    <!-- Audit log entries will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="audit-pagination">
+                            <button class="btn btn-outline">Previous</button>
+                            <span>Page 1 of 15</span>
+                            <button class="btn btn-outline">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals and overlays -->
+    <div id="emergencyModal" class="modal">
+        <div class="modal-content emergency">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Emergency Panel</h3>
+                <button class="modal-close" onclick="closeEmergencyPanel()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="emergency-actions">
+                    <button class="emergency-btn critical" onclick="initiateNetworkShutdown()">
+                        <i class="fas fa-power-off"></i>
+                        Network Shutdown
+                    </button>
+                    <button class="emergency-btn warning" onclick="pauseTransactions()">
+                        <i class="fas fa-pause"></i>
+                        Pause Transactions
+                    </button>
+                    <button class="emergency-btn info" onclick="broadcastAlert()">
+                        <i class="fas fa-broadcast-tower"></i>
+                        Broadcast Alert
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>
